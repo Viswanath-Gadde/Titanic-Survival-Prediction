@@ -1,1 +1,41 @@
-🚢 Titanic Survival Prediction Model PerformanceThe developed model exhibits a fairly good overall performance in predicting Titanic survival, achieving an Accuracy of 81.01% across 179 observations.Key Findings and Performance BreakdownWhile the overall accuracy is strong, a detailed analysis reveals a slight imbalance in the model's ability to correctly predict each class:Overall Accuracy: 0.81 (81.01%)MetricClass 0 (Did Not Survive)Class 1 (Survived)Recall (Sensitivity)0.890.70Precision0.810.81Analysis by Class📉 Class 0: Did Not Survive (The Model's Strength)The model is strongest at identifying passengers who did not survive.True Negatives (TN): 93 (Correctly predicted not surviving).Recall (Sensitivity) of 0.89: This means the model correctly identified 89% of the passengers who actually did not survive.Precision of 0.81: Out of all predictions the model made for this class, 81% were correct.📈 Class 1: Survived (Area for Improvement)The model is weaker at identifying passengers who survived, which is the primary area for future tuning.True Positives (TP): 52 (Correctly predicted surviving).Recall (Sensitivity) of 0.70: This is the main weakness. The model missed 30% of the passengers who actually survived.This translates to 22 False Negatives (FN)—passengers who survived but were incorrectly predicted by the model not to.Precision of 0.81: Out of all predictions the model made for this class, 81% were correct.Conclusion and Next StepsThe overall accuracy of 81% is a good starting point. However, the significantly lower Recall for the 'Survived' class (0.70) compared to the 'Did Not Survive' class (0.89) indicates a need for model refinement.Future efforts should focus on tuning the model to better capture the characteristics of survivors (Class 1) to reduce the number of False Negatives (the 22 missed survivors) and thereby increase the recall for this critical group.
+🚢 Titanic Survival Prediction — Model Performance Summary
+
+The Titanic Survival Prediction Model demonstrates strong overall performance, achieving an accuracy of 81.01% on a dataset of 179 observations.
+
+📊 Overall Model Performance
+
+Accuracy: 0.81 (81.01%)
+
+🔍 Class-wise Performance Breakdown
+Metric	Class 0 (Did Not Survive)	Class 1 (Survived)
+Recall	0.89	0.70
+Precision	0.81	0.81
+📉 Class 0 — Did Not Survive
+
+The model performs strongly in identifying passengers who did not survive.
+
+True Negatives (TN): 93
+
+Recall: 0.89 → Correctly identifies 89% of actual non-survivors
+
+Precision: 0.81 → 81% of Class 0 predictions are correct
+
+➡️ Overall, the model is reliable for detecting non-survivors.
+
+📈 Class 1 — Survived
+
+This class shows room for improvement, as the model struggles more here.
+
+True Positives (TP): 52
+
+Recall: 0.70 → The model misses 30% of actual survivors
+
+Precision: 0.81
+
+False Negatives (FN): 22 → Survivors predicted as non-survivors
+
+➡️ Improving recall for this class is crucial to reduce missed survivor predictions.
+
+🧠 Conclusion
+
+The model’s overall accuracy of 81% makes it a solid baseline. However, the lower Recall for Class 1 (0.70) indicates that the model has difficulty identifying actual survivors.
