@@ -10,6 +10,7 @@ Accuracy: 0.81 (81.01%)
 Metric	Class 0 (Did Not Survive)	Class 1 (Survived)
 Recall	0.89	0.70
 Precision	0.81	0.81
+
 📉 Class 0 — Did Not Survive
 
 The model performs strongly in identifying passengers who did not survive.
