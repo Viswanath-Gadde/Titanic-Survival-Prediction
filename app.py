@@ -56,7 +56,11 @@ X = pd.DataFrame(
 # ---------------------------
 if st.button("Predict"):
     pred = model.predict(X)[0]
-    st.success(f"Prediction: {'SURVIVED' if pred == 1 else 'NOT SURVIVED'}")
+    if pred == 1:
+        st.success("Prediction: Survived")
+    else:
+        st.error("Prediction: Not Survived")
+
 
     # survived_index = list(model.classes_).index(1)
     # prob = model.predict_proba(X)[0][survived_index]
