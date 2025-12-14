@@ -66,7 +66,7 @@ High precision but lower recall for Class 1 suggests the model is conservative w
 🧪 Conclusion
 
 The Titanic Survival Prediction model provides a solid and interpretable baseline, with strong overall accuracy and excellent detection of non-survivors. However, the lower recall for survivors indicates that the model tends to miss some passengers who actually survived.
---PREVIEW
+**PREVIEW**
 <img width="1912" height="983" alt="Screenshot (53)" src="https://github.com/user-attachments/assets/c5c6ab96-d27f-4f0d-bec2-4522f014d321" />
 
 <img width="1905" height="996" alt="Screenshot (54)" src="https://github.com/user-attachments/assets/a35c29fd-7234-4b0a-af86-fcaacd831762" />
