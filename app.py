@@ -1,19 +1,24 @@
 import streamlit as st
 import pandas as pd
 import joblib
-import numpy as np
 
 # ---------------------------
-# LOAD YOUR MODEL + ENCODERS
+# LOAD MODEL & ENCODERS
 # ---------------------------
-model = joblib.load("model.pkl")
-cab_le = joblib.load("cab_le.pkl")
-sex_le = joblib.load("sex_le.pkl")
-emb_le = joblib.load("emb_le.pkl")
-sur_le = joblib.load("sur_le.pkl")  # only if y was encoded
+@st.cache_resource
+def load_artifacts():
+    model = joblib.load("model.pkl")
+    sex_le = joblib.load("sex_le.pkl")
+    cab_le = joblib.load("cab_le.pkl")
+    emb_le = joblib.load("emb_le.pkl")
+    return model, sex_le, cab_le, emb_le
 
+model, sex_le, cab_le, emb_le = load_artifacts()
+
+# ---------------------------
+# PAGE CONFIG
+# ---------------------------
 st.set_page_config(page_title="Titanic Survival Predictor", layout="centered")
-
 st.title("🚢 Titanic Survival Prediction")
 st.write("Enter passenger details")
 
@@ -27,52 +32,35 @@ cabin = st.text_input("Cabin", value="Unknown")
 embarked = st.selectbox("Embarked", ["S", "C", "Q"])
 
 # ---------------------------
-# ENCODE INPUT VALUES
+# ENCODE INPUTS
 # ---------------------------
-try:
-    sex_enc = sex_le.transform([sex])[0]
-except ValueError:
-    st.error("Unknown sex value")
-    st.stop()
+sex_enc = sex_le.transform([sex])[0]
+emb_enc = emb_le.transform([embarked])[0]
 
-try:
-    emb_enc = emb_le.transform([embarked])[0]
-except ValueError:
-    st.error("Unknown embarked value")
-    st.stop()
-
-# Handle unseen cabin safely
+# handle unseen cabin
 if cabin in cab_le.classes_:
     cab_enc = cab_le.transform([cabin])[0]
 else:
     cab_enc = cab_le.transform(["Unknown"])[0]
 
 # ---------------------------
-# CREATE MODEL INPUT (ORDER MUST MATCH TRAINING)
+# MODEL INPUT (MATCH TRAINING ORDER)
 # ---------------------------
-# ⚠️ Change order ONLY if your training order was different
-input_encoded = pd.DataFrame([[
-    pclass,
-    sex_enc,
-    age,
-    cab_enc,
-    emb_enc
-]], columns=["Pclass", "Sex", "Age", "Cabin", "Embarked"])
+X = pd.DataFrame(
+    [[pclass, sex_enc, age, cab_enc, emb_enc]],
+    columns=["Pclass", "Sex", "Age", "Cabin", "Embarked"]
+)
 
 # ---------------------------
 # PREDICTION
 # ---------------------------
 if st.button("Predict"):
-    pred = model.predict(input_encoded)[0]
-    prob = model.predict_proba(input_encoded)[0][1]
+    pred = model.predict(X)[0]
 
-    # Decode prediction if target was encoded
-    if "sur_le" in locals():
-        pred_label = sur_le.inverse_transform([pred])[0]
-    else:
-        pred_label = pred
+    survived_index = list(model.classes_).index(1)
+    prob = model.predict_proba(X)[0][survived_index]
 
-    if pred_label == 1 or pred_label == "Survived":
+    if pred == 1:
         st.success(f"🎉 Likely to SURVIVE (Probability: {prob:.2f})")
     else:
         st.error(f"❌ Likely NOT to survive (Probability: {prob:.2f})")
